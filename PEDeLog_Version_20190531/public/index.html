@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEDeLog</title>
+    <link rel="stylesheet" href="css/global.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />    <!--neu REACT -->
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+
+</head>
+<noscript>You need to enable JavaScript to run this app.</noscript> <!--neu REACT -->
+<body id="body">
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">PEDeLog</a>
+        </div>
+    </div>
+
+    <div id="PEDeLog_input_form" class="container-fluid">
+
+        <!--action muss noch angepasst werden...??können die Daten mit get aus dem-->
+        <form name="input_form" method="get" action="data/dblogin.csv" class="input_form_class">
+
+            <div id="input_form">
+
+                <!--data field, Date from-->
+                <div class="form-group">
+                    <label class="col-sm-10 control-label" for="date_from_id">Date from</label>
+                    <div class="col-sm-10">
+                        <input type="date" id="date_from_id" name="date_from"/>
+                    </div>
+                </div>
+
+                <!--data field, Date to-->
+                <div class="form-group">
+                    <label class="col-sm-10 control-label" for="date_to_id">Date to</label>
+                    <div class="col-sm-10">
+                        <input type="date" id="date_to_id" name="date_from"/>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice f0r E-mail-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="email_id">E-mail</label>
+                    <div class="col-sm-10"><select id="email_id" name="login_email"
+                                                   class="selectpicker form-control"
+                                                   multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+
+                <!--Dropdown field with free text and multiple choice for Account ID - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="account_id_id">Account ID</label>
+                    <div class="col-sm-10">
+                        <select id="account_id_id" name="account_id"
+                                                   class="selectpicker form-control"
+                                                   multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for Account type - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="account_type_id">Account type</label>
+                    <div class="col-sm-10">
+                        <select id="account_type_id" name="account_type"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for Country - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="country_id">Country</label>
+                    <div class="col-sm-10">
+                        <select id="country_id" name="country"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for Roles - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="roles_id">Roles</label>
+                    <div class="col-sm-10">
+                        <select id="roles_id" name="country"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for License - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="license_id">License</label>
+                    <div class="col-sm-10">
+                        <select id="license_id" name="license"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for Authentification methode - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="authentification_methode_id">Authentification methode</label>
+                    <div class="col-sm-10">
+                        <select id="authentification_methode_id" name="authentification_methode"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Dropdown field with free text and multiple choice for Type of log data = context - url angeben!!!-->
+                <div class="form-group"><label class="col-sm-10 control-label" for="context_id">Type of log data</label>
+                    <div class="col-sm-10">
+                        <select id="context_id" name="context"
+                                class="selectpicker form-control"
+                                multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <!--fulltext search field substance_group-->
+                <div class="form-group">
+                    <label class="col-sm-10 control-label sr-only" for="substance_id">Substance</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="substance_id" placeholder="Substance" name="substance_group"/>
+                    </div>
+                </div>
+
+                <!--fulltext search field product-->
+                <div class="form-group">
+                    <label class="col-sm-10 control-label sr-only" for="product_id">Product</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="product_id" placeholder="Product" name="product"/>
+                    </div>
+                </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <!--reset-Button-->
+                    <a class="btn btn-primary" href="database??">Reset</a>
+                    <!--save-Button-->
+                    <input class="btn btn-primary" type="submit" value="Save"/>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="datatable"></div>
+
+</nav>
+
+</body>
+</html>
