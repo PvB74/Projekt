@@ -25,7 +25,7 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchApi()
-      .then(res => this.setState({ response: res.express }))
+      .then(res => this.setState({ tableData: res.records }))
       .catch(err => console.log(err));
   }
 
@@ -85,27 +85,29 @@ class App extends Component {
         <div style={{paddingTop: 10, paddingBottom: 20}}>
           <table>
             <thead>
-              <div style={{borderTop: '1px solid #eee', borderBottom: '2px solid #eee', paddingTop: 5, paddingBottom: 5, fontWeight: 'bold'}}>
-                <tr>
-                  <th colspan="1">Time</th>
-                  <th colspan="1">Log ID</th>
-                  <th colspan="1">Login Email</th>
-                  <th colspan="1">Login ID</th>
-                  <th colspan="1">Type</th>
-                  <th colspan="1">Log Information</th>
+                <tr style={{borderTop: '1px solid #eee', borderBottom: '2px solid #eee', paddingTop: 5, paddingBottom: 5, fontWeight: 'bold'}}>
+                  <th colSpan="1">Roles</th>
+                  <th colSpan="1">License ID</th>
+                  <th colSpan="1">Login Email</th>
+                  <th colSpan="1">Login ID</th>
+                  <th colSpan="1">Account Type</th>
+                  <th colSpan="1">Auth Methods</th>
+                  <th colSpan="1">Account Active</th>
+                  <th colSpan="1">Login Active</th>
                 </tr>
-              </div>
             </thead>
             <tbody>
               {
                 this.state.tableData.map((entry)=>(
-                  <tr>
-                    <td>{entry.time}</td>
-                    <td>{entry.logId}</td>
-                    <td>{entry.loginEmail}</td>
-                    <td>{entry.loginId}</td>
-                    <td>{entry.type}</td>
-                    <td>{entry.logInformation}</td>
+                  <tr key={Math.random()}>
+                    <td>{entry.roles.join(" / ")}</td>
+                    <td>{entry.license_id}</td>
+                    <td>{entry.login_email}</td>
+                    <td>{entry.login_id}</td>
+                    <td>{entry.account_type}</td>
+                    <td>{entry.auth_methods}</td>
+                    <td>{entry.account_active === '1'? "Yes" : "No"}</td>
+                    <td>{entry.login_active === '1'? "Yes" : "No"}</td>
                   </tr>
                 ))
               }
