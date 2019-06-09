@@ -62,6 +62,8 @@ app.get('/api/activitylog', (req, res) => {
   res.json({ _metadata: metadata, records: activitylog });
 });
 
+app.all('/*', (req, res)=>res.sendStatus(404))
+
 
 const port = process.env.PORT || 5000;
 http.createServer(app).listen(port, ()=>console.log(`Listening on port - ${port}`))

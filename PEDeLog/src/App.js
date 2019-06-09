@@ -8,8 +8,8 @@ class App extends Component {
     this.state = {
       response: '',
       tableData: [],
-      dateFrom: new Date(),
-      dateTo: new Date(),
+      dateFrom: null,
+      dateTo: null,
       email: '',
       accountId: '',
       accountType: '',
@@ -49,8 +49,8 @@ class App extends Component {
 
   resetData = ()=>{
     this.setState({
-      dateFrom: new Date(),
-      dateTo: new Date(),
+      dateFrom: null,
+      dateTo: null,
       email: '',
       accountId: '',
       accountType: '',
@@ -62,14 +62,16 @@ class App extends Component {
       substance: '',
       product: ''
     })
+    document.getElementById('datefrom').value = null
+    document.getElementById('dateto').value = null
   }
 
 
   render() {
     return (
       <div className="App">
-        <div><input type="date" placeholder="Date From" onChange={(event)=>this.setState({dateFrom: event.target.valueAsDate})} /></div>
-        <div><input type="date" placeholder="Date To" onChange={(event)=>this.setState({dateTo: event.target.valueAsDate})} /></div>
+        <div><input type="date" id="datefrom" placeholder="Date From" onChange={(event)=>this.setState({dateFrom: event.target.valueAsDate})} /></div>
+        <div><input type="date" id="dateto" placeholder="Date To" onChange={(event)=>this.setState({dateTo: event.target.valueAsDate})} /></div>
         <div><input type="email" placeholder="Email" value={this.state.email} onChange={(event)=>this.setState({email: event.target.value})} /></div>
         <div><input type="text" placeholder="Account Id" value={this.state.accountId} onChange={(event)=>this.setState({accountId: event.target.value})} /></div>
         <div><input type="text" placeholder="Account Type" value={this.state.accountType} onChange={(event)=>this.setState({accountType: event.target.value})} /></div>
@@ -80,7 +82,7 @@ class App extends Component {
         <div><input type="text" placeholder="Type Of Log Data" value={this.state.typeOfLogData} onChange={(event)=>this.setState({typeOfLogData: event.target.value})} /></div>
         <div><input type="text" placeholder="Substance" value={this.state.substance} onChange={(event)=>this.setState({substance: event.target.value})} /></div>
         <div><input type="text" placeholder="Product" value={this.state.product} onChange={(event)=>this.setState({product: event.target.value})} /></div>
-        <div><button onClick={this.saveData}>Save</button><button>Reset</button></div>
+        <div><button onClick={this.saveData}>Save</button><button onClick={this.resetData}>Reset</button></div>
         {/* <hr/> */}
         <div style={{paddingTop: 10, paddingBottom: 20}}>
           <table>
