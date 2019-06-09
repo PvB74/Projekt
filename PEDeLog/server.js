@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const http = require('http')
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,9 +11,9 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/build/index.html'));
+// });
 
 // allow CORS.
 app.use(function(req, res, next) {
@@ -22,20 +23,31 @@ app.use(function(req, res, next) {
 
 //Daten aus MongoDB holen
 const MongoClient = require('mongodb');
-let dbUrl = 'mongodb://localhost:27017/pededose';
+// let dbUrl = 'mongodb://localhost:27017/pededose';
+let dbUrl = 'mongodb://localhost:27017';
 let login = [];
 let activitylog = [];
 
 //API für Login-Daten
 app.get('/api/login', (req, res) => {
-  MongoClient.connect(dbUrl, (err, db) => {
-    db.collection('login').find().toJSON(function(err, result) {
-      login = result;
-    });
-    db.close();
-  });
-  const metadata = { total_count: login.length };
-  res.json({ records: login });
+  let clientConn;
+  MongoClient.connect(dbUrl)
+  .then((client) => {
+    clientConn = client
+    const db = client.db('pededose')
+    return db.collection('login').find().toArray();
+  })
+  .then((result)=>{
+    login = result;
+    const metadata = { total_count: login.length };
+    res.json({ records: login });
+  })
+  .catch((err)=>{
+    res.status(500).send(err)
+  })
+  .then(()=>{
+    clientConn.close();
+  })
 });
 
 //API für Activitylog-Daten - Achtung Version MongoDB muss so bleiben, sonst funktioniert es nicht (collection wird nicht erkannt...)
@@ -52,4 +64,5 @@ app.get('/api/activitylog', (req, res) => {
 
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+http.createServer(app).listen(port, ()=>console.log(`Listening on port - ${port}`))
+// app.listen(port, () => console.log(`Listening on port ${port}`));
