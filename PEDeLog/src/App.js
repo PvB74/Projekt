@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios'
 
 class App extends Component {
 
@@ -30,21 +31,30 @@ class App extends Component {
   }
 
   fetchApi = async () => {
-    const response = await fetch('http://localhost:5000/api/login');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
+    try {
+      const response = await fetch('http://localhost:5000/api/login');
+      const body = await response.json();
+      if (response.status !== 200) throw Error(body.message);
+      return body;
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   saveData = ()=>{
-    fetch({
-      method: 'POST',
-      url: '/',
-      body: {...this.state}
+    const state = Object.assign({}, this.state)
+    delete state.response
+    delete state.tableData
+    axios.post('http://localhost:5000/api/login', { state })
+    // .then((response)=>response.json())
+    .then((response)=>{
+      console.log("response",response)
+      this.setState({tableData: [...this.state.tableData].concat(state)})
     })
-    .then((response)=>response.json())
-    .then((response)=>console.log(response))
-    .catch((err)=>console.error(err))
+    .catch((err)=>{
+      console.error(err)
+      alert(err)
+    })
   }
 
   resetData = ()=>{
@@ -102,7 +112,7 @@ class App extends Component {
               {
                 this.state.tableData.map((entry)=>(
                   <tr key={Math.random()}>
-                    <td>{entry.roles.join(" / ")}</td>
+                    <td>{entry.roles? entry.roles.join(" / ") : ""}</td>
                     <td>{entry.license_id}</td>
                     <td>{entry.login_email}</td>
                     <td>{entry.login_id}</td>
