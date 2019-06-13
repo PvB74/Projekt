@@ -39,7 +39,8 @@ class App extends Component {
       const response = await fetch('http://localhost:5000/api/login');
       const body = await response.json();
       if (response.status !== 200) throw Error(body.message);
-      body.forEach(element => {
+      console.log(body)
+      body.records.forEach(element => {
         if(element.login_data && element.login_data.datetime){
           element.login_data.datetime += ":00"
         }
@@ -69,20 +70,23 @@ class App extends Component {
   filterData = ()=>{
     this.setState({displayedData: this.state.tableData.filter((entry)=>{
       if(entry.login_data && entry.login_data.datetime){
+        const dateSplit = entry.login_data.datetime.split(" ")
+        const reorganizedDay = dateSplit[0].split(".").reverse().join("-")
+        const dateToUse = moment(reorganizedDay + " " + dateSplit[1])
         if(this.state.dateFrom){
           const from = moment(this.state.dateFrom).startOf('day')
-          if(moment(entry.login_data.datetime) < from) return false;
+          if(dateToUse < from) return false;
         }
         if(this.state.dateTo){
           const to = moment(this.state.dateTo).startOf('day')
-          if(moment(entry.login_data.datetime) > to) return false;
+          if(dateToUse > to) return false;
         }
       }
       if(this.state.loginId){
-        if(entry.license_id !== entry) return false;
+        if(entry.login_id !== this.state.loginId) return false;
       }
       if(this.state.context){
-
+        if(!entry.login_data || entry.login_data.context !== this.state.context) return false;
       }
       return true;
     })})
@@ -92,16 +96,19 @@ class App extends Component {
     this.setState({
       dateFrom: null,
       dateTo: null,
-      email: '',
-      accountId: '',
-      accountType: '',
-      country: '',
-      role: '',
-      license: '',
-      authenticationMethod: '',
-      typeOfLogData: '',
-      substance: '',
-      product: ''
+      loginId: "",
+      context: "",
+      // email: '',
+      // accountId: '',
+      // accountType: '',
+      // country: '',
+      // role: '',
+      // license: '',
+      // authenticationMethod: '',
+      // typeOfLogData: '',
+      // substance: '',
+      // product: '',
+      displayedData: this.state.tableData
     })
     document.getElementById('datefrom').value = null
     document.getElementById('dateto').value = null
@@ -152,6 +159,7 @@ class App extends Component {
                   <th colSpan="1">Account Active</th>
                   <th colSpan="1">Login Active</th>
                   <th colSpan="1">DateTime</th>
+                  <th colSpan="1">Context</th>
                 </tr>
             </thead>
             <tbody>
@@ -166,7 +174,8 @@ class App extends Component {
                     <td>{entry.auth_methods}</td>
                     <td>{entry.account_active === '1'? "Yes" : "No"}</td>
                     <td>{entry.login_active === '1'? "Yes" : "No"}</td>
-                    <td>{entry.datetime}</td>
+                    <td>{entry.login_data && entry.login_data.datetime}</td>
+                    <td>{entry.login_data && entry.login_data.context}</td>
                   </tr>
                 ))
               }
