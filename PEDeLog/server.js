@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 const MongoClient = require('mongodb');
 // let dbUrl = 'mongodb://localhost:27017/pededose';
 let dbUrl = 'mongodb://localhost:27017';
-let login = [];
+let loginData = [];
 let activitylog = [];
 
 //API für Login-Daten
@@ -40,13 +40,21 @@ app.get('/api/login', (req, res) => {
   MongoClient.connect(dbUrl)
   .then((client) => {
     clientConn = client
-    const db = client.db('pededose')
+    const db = clientConn.db('pededose')
     return db.collection('login').find().toArray();
   })
   .then((result)=>{
-    login = result;
-    const metadata = { total_count: login.length };
-    res.json({ records: login });
+    loginData = result;
+    const db = clientConn.db('pededose')
+    const populatedData = result.map((entry)=>db.collection('activitylog').findOne({login_id: entry.login_id}))
+    return Promise.all(populatedData)
+    // const metadata = { total_count: login.length };
+  })
+  .then((populatedData)=>{
+    const populatedRecords = loginData.map((entry, index)=>Object.assign({}, entry, {
+      login_data: populatedData[index]
+    }))
+    res.json({ records: populatedRecords });
   })
   .catch((err)=>{
     res.status(500).send(err)
