@@ -166,7 +166,7 @@ class App extends Component {
               {
                 this.state.displayedData.map((entry)=>(
                   <tr key={Math.random()}>
-                    <td>{entry.roles? entry.roles.join(" / ") : ""}</td>
+                    <td>{entry.roles}</td>
                     <td>{entry.license_id}</td>
                     <td>{entry.login_email}</td>
                     <td>{entry.login_id}</td>
