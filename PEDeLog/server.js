@@ -38,30 +38,37 @@ let activitylog = [];
 //API für Login-Daten
 app.get('/api/login', (req, res) => {
   let clientConn;
-  MongoClient.connect(dbUrl)
+  MongoClient.connect(dbUrl, {useNewUrlParser: true})
   .then((client) => {
     clientConn = client
+    console.log("client", client)
+    console.log("client conn", clientConn)
     const db = clientConn.db('pededose')
     return db.collection('login').find().toArray();
   })
   .then((result)=>{
     loginData = result;
+    console.log("Login Data", loginData)
     const db = clientConn.db('pededose')
     const populatedData = result.map((entry)=>db.collection('activitylog').findOne({login_id: entry.login_id}))
     return Promise.all(populatedData)
     // const metadata = { total_count: login.length };
   })
   .then((populatedData)=>{
+    console.log("populated data", populatedData)
     const populatedRecords = loginData.map((entry, index)=>Object.assign({}, entry, {
       login_data: populatedData[index]
     }))
     res.json({ records: populatedRecords });
   })
   .catch((err)=>{
+    console.error(err)
     res.status(500).send(err)
   })
   .then(()=>{
-    clientConn.close();
+    if(clientConn){
+      clientConn.close();
+    }
   })
 });
 
