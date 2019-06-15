@@ -36,7 +36,7 @@ class App extends Component {
 
   fetchApi = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/login');
+      const response = await fetch('https://ffhs-project-pedelog-backend.herokuapp.com/api/login');
       const body = await response.json();
       if (response.status !== 200) throw Error(body.message);
       console.log(body)
