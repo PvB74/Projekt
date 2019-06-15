@@ -30,7 +30,8 @@ app.use(function(req, res, next) {
 //Daten aus MongoDB holen
 const MongoClient = require('mongodb');
 // let dbUrl = 'mongodb://localhost:27017/pededose';
-let dbUrl = 'mongodb://localhost:27017';
+let dbUrl = process.env.DB_URL || 'mongodb://localhost:27017';
+// let dbUrl = 'mongodb+srv://app:app%%password@pededose-j8rpp.mongodb.net/test?retryWrites=true&w=majority';
 let loginData = [];
 let activitylog = [];
 
