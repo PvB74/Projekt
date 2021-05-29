@@ -17,7 +17,7 @@
     "express": "^4.16.4",
     "mongodb": "^2.2.33",
     "mongoimport": "^1.0.6",
-    "ws": "^6.2.1",
+    "ws": "^7.4.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
